@@ -3,11 +3,13 @@
     <base-card>
       <header>
         <h3>{{ title }}</h3>
-        <base-button className="flat"> Delete </base-button>
+        <base-button className="flat" @click="removeResource(id)">
+          Delete
+        </base-button>
       </header>
       <p>{{ description }}</p>
       <nav>
-        <a :href="link">View Resource</a>
+        <a :href="link" target="_blank">View Resource</a>
       </nav>
     </base-card>
   </li>
@@ -15,6 +17,7 @@
 
 <script>
 export default {
+  inject: ['removeResource'],
   props: {
     id: {
       type: Number,

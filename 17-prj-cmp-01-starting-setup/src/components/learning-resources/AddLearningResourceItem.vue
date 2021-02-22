@@ -1,4 +1,16 @@
 <template>
+  <base-dialog
+    v-if="inputsAreInvalid"
+    title="Invalid Input"
+    @confirm="confirmDialog"
+  >
+    <template #default>
+      <p>Please fill the all input fields.</p>
+    </template>
+    <template #actions>
+      <base-button @click="confirmDialog">Okay</base-button>
+    </template>
+  </base-dialog>
   <base-card>
     <form @submit.prevent="submit">
       <div class="form-control">
@@ -33,24 +45,45 @@ export default {
       titleInput: '',
       descriptionInput: '',
       linkInput: '',
+      inputsAreInvalid: false,
     };
   },
   methods: {
     submit() {
+      const isInputsAreValid = this._controlInputs();
+
+      if (!isInputsAreValid) {
+        this.inputsAreInvalid = true;
+        return;
+      }
+
       const newResource = {
         title: this.titleInput,
         description: this.descriptionInput,
         link: this.linkInput,
       };
+
       this.addResource(newResource);
 
       this._clearInputs();
+    },
+
+    confirmDialog() {
+      this.inputsAreInvalid = false;
     },
 
     _clearInputs() {
       this.titleInput = '';
       this.descriptionInput = '';
       this.linkInput = '';
+    },
+
+    _controlInputs() {
+      return (
+        this.titleInput.trim() !== '' &&
+        this.descriptionInput.trim() !== '' &&
+        this.linkInput.trim() !== ''
+      );
     },
   },
 };
