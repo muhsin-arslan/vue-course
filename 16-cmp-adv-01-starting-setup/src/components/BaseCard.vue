@@ -1,11 +1,17 @@
 <template>
   <div>
-    <header>
-      <slot name="header"></slot>
+    <header v-if="$slots.header">
+      <slot name="header">
+        <h2>Default Title</h2>
+      </slot>
     </header>
     <slot></slot>
   </div>
 </template>
+
+<script>
+export default {};
+</script>
 
 <style scoped>
 header {
